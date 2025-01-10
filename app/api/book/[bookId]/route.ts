@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req: Request, { params }: { params: { bookId: string } }) {
     
-    const { bookId } = params;
+    const { bookId } = await params;
 
     try {
         const book = await db.book.findUnique({

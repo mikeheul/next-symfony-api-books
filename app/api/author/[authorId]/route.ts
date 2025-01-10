@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req: Request, { params }: { params: { authorId: string } }) {
     
-    const { authorId } = params;
+    const { authorId } = await params;
 
     try {
         const author = await db.author.findUnique({
