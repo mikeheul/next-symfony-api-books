@@ -29,3 +29,4 @@ export async function GET(req: Request, { params }: { params: { authorId: string
         return NextResponse.json({ message: 'Erreur interne' }, { status: 500 });
     }
 }
+
