@@ -1,0 +1,13 @@
+model Book {
+    id                String @id @default(auto()) @map("_id") @db.ObjectId
+    title             String
+    description       String
+    pages             Int @default(0)
+    publishedDate     Int @default(1900)
+
+    authorId          String? @db.ObjectId
+    author            Author?  @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+}

@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js API - Books and Authors
+
+This is a Next.js project that provides an API for listing books, authors, and the details of individual books and authors. The project uses Prisma ORM to interact with a MongoDB database.
+
+## Tech Stack
+- **Next.js**: A React framework for building server-side rendered (SSR) applications.
+- **Prisma ORM**: An ORM used to interact with MongoDB.
+- **MongoDB**: NoSQL database to store the data.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+1. Node.js (v14 or later)
+2. MongoDB (local or cloud)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/nextjs-books-authors-api.git
+cd nextjs-books-authors-api
+```
+
+2. Install the dependencies:
+
+```bash
+npm install
+```
+
+3. Configure Prisma:
+   - In the `prisma/schema.prisma` file, set up the connection to your MongoDB database by modifying the `datasource` block:
+
+```prisma
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")  // Example: mongodb://localhost:27017/your-database
+}
+```
+
+4. Create and apply the Prisma schema:
+
+```bash
+npx prisma migrate dev --name init
+```
+
+5. Set the environment variables:
+   - Create a `.env` file at the root of the project and add your MongoDB connection string:
+
+```
+DATABASE_URL=mongodb://your-database-url
+```
+
+6. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will now be running on `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### API Endpoints
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### **1. List all books**
+- **Endpoint**: `GET /api/books`
+- **Description**: Retrieves a list of all books.
+- **Response**:
+```json
+[
+  {
+    "id": "book1",
+    "title": "Book Title 1",
+    "publishedDate": "2022-01-01",
+    "authorId": "author1"
+  },
+  ...
+]
+```
 
-## Learn More
+#### **2. List all authors**
+- **Endpoint**: `GET /api/authors`
+- **Description**: Retrieves a list of all authors.
+- **Response**:
+```json
+[
+  {
+    "id": "author1",
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  ...
+]
+```
 
-To learn more about Next.js, take a look at the following resources:
+#### **3. Get details of a book**
+- **Endpoint**: `GET /api/books/:id`
+- **Description**: Retrieves detailed information about a specific book.
+- **Response**:
+```json
+{
+  "id": "book1",
+  "title": "Book Title 1",
+  "publishedDate": "2022-01-01",
+  "description": "Detailed description of the book",
+  "author": {
+    "firstname": "John",
+    "lastname": "Doe"
+  }
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### **4. Get details of an author**
+- **Endpoint**: `GET /api/authors/:id`
+- **Description**: Retrieves detailed information about a specific author.
+- **Response**:
+```json
+{
+  "id": "author1",
+  "firstname": "John",
+  "lastname": "Doe",
+  "books": [
+    {
+      "id": "book1",
+      "title": "Book Title 1",
+      "publishedDate": "2022-01-01"
+    },
+    ...
+  ]
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+To deploy the app to production, you can use platforms like Vercel or any platform that supports Node.js.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Build the project:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+```
+
+2. Deploy to your preferred platform.
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

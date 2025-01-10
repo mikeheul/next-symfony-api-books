@@ -1,0 +1,10 @@
+model Author {
+    id                String @id @default(auto()) @map("_id") @db.ObjectId
+    lastname          String 
+    firstname         String
+
+    books             Book[]
+
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+}
